@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title> Login Page</title>
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form>
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registeration</span>
+                <input type="text" placeholder="Name">
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <button>Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container log-in">
+            <form>
+                <h1>Log In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span class="text">or use your email password</span>
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <a href="#">Forgot Password?</a>
+                <button>Log In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all the  features</p>
+                    <button class="hidden" id="login">Log In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friends?</h1>
+                    <p>Register with your personal details to use all the site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bcryptjs/dist/bcrypt.min.js"></script>
+
+<script src="script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const signUpForm = document.querySelector('.form-container.sign-up form');
+        const logInForm = document.querySelector('.form-container.log-in form');
+
+
+        const toggleButton = document.querySelector('.toggle');
+        const loginButton = document.getElementById('login');
+        const registerButton = document.getElementById('register');
+
+        toggleButton.addEventListener('click', function () {
+            document.getElementById('container').classList.toggle('log-in');
+        });
+
+        
+        async function hashPassword(password) {
+            const saltRounds = 10;
+            return await bcrypt.hash(password, saltRounds);
+        }
+
+    
+        signUpForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const name = signUpForm.querySelector('input[type="text"]').value;
+            const email = signUpForm.querySelector('input[type="email"]').value;
+            const password = signUpForm.querySelector('input[type="password"]').value;
+
+            
+            if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const hashedPassword = await hashPassword(password);
+
+            
+            console.log('Name:', name);
+            console.log('Email:', email);
+            console.log('Hashed Password:', hashedPassword);
+
+            
+            signUpForm.reset();
+        });
+
+        
+        logInForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const email = logInForm.querySelector('input[type="email"]').value;
+            const password = logInForm.querySelector('input[type="password"]').value;
+
+            
+            if (email.trim() === '' || password.trim() === '') {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            
+            alert('Login Successful!');
+
+            
+            logInForm.reset();
+        });
+    });
+</script>
+</body>
+
+</html>
